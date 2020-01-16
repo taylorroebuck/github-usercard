@@ -2,6 +2,14 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+// axios.get('https://api.github.com/users/taylorroebuck')
+// .then(response => {
+//   console.log(response)
+// })
+// .catch(error => {
+//   console.log('data not found', error)
+// })
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -13,6 +21,7 @@
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
+
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -45,6 +54,44 @@ const followersArray = [];
 </div>
 
 */
+
+// create function
+function friendCard(object) {
+  const card = document.createElement("div"),
+        cardImg = document.createElement("img"),
+        cardInfo = document.createElement("div"),
+          infoName = document.createElement("h3"),
+          infoUsername = document.createElement("p"),
+          infoLocation = document.createElement("p"),
+          infoProfile = document.createElement("p")
+            cardAddress = document.createElement("a"),
+          infoFollowers = document.createElement("p"),
+          infoFollowing = document.createElement("p"),
+          infoBio = document.createElement("p");
+
+  // setup the structure of elements
+  card.append(cardImg);
+  card.append(cardInfo);
+    cardInfo.append(infoName);
+    cardInfo.append(infoUsername);
+    cardInfo.append(infoLocation);
+    cardInfo.append(infoProfile);
+      infoProfile.append(cardAddress);
+    cardInfo.append(infoFollowers);
+    cardInfo.append(infoFollowing);
+    cardInfo.append(infoBio);
+
+  //add classes to elements
+  card.classList.add("card");
+  cardImg.classList.add("card img");
+  cardInfo.classList.add("card-info");
+  infoName.classList.add("name");
+  infoUsername.classList.add("username");
+
+
+
+
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
