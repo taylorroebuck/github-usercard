@@ -37,6 +37,10 @@ axios.get("https://api.github.com/users/taylorroebuck")
   //   entryPoint.append(newUser);
 })
 
+.catch(error => {
+  console.log("the data was not returned", error)
+});
+
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
           , manually find some other users' github handles, or use the list found 
@@ -47,7 +51,26 @@ axios.get("https://api.github.com/users/taylorroebuck")
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ["brudnak", "svyatokshin", "dmhabh1992", "kphillips001", "VodeniZeko", "ranccm", "alexvision26", 
+"Gremlin4544", "msinnema33", "JacobSutherland", "rofstudios", "AmMiRo"];
+
+followersArray.forEach((object) => {
+  const user = "https://api.github.com/users/" + object;
+
+  axios.get(user)
+  .then((response) => {
+    friendCard(response);
+    console.log(response);
+
+    const newCard = friendCard(response);
+    entryPoint.append(newCard);
+    // friendCard.append(user);
+  })
+
+  .catch(error => {
+    console.log("the data was not returned", error)
+  });
+});
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -77,7 +100,7 @@ function friendCard(object) {
           infoName = document.createElement("h3"),
           infoUsername = document.createElement("p"),
           infoLocation = document.createElement("p"),
-          infoProfile = document.createElement("p")
+          infoProfile = document.createElement("p"),
             cardAddress = document.createElement("a"),
           infoFollowers = document.createElement("p"),
           infoFollowing = document.createElement("p"),
@@ -90,7 +113,6 @@ function friendCard(object) {
     cardInfo.append(infoUsername);
     cardInfo.append(infoLocation);
     cardInfo.append(infoProfile);
-      infoProfile.append(cardAddress);
     cardInfo.append(infoFollowers);
     cardInfo.append(infoFollowing);
     cardInfo.append(infoBio);
@@ -107,15 +129,19 @@ function friendCard(object) {
   infoFollowing.classList.add("p");
   infoBio.classList.add("p");
 
-  //set text content
+  //set content
   cardImg.src = object.data.avatar_url;
   infoName.textContent = object.data.name;
   infoUsername.textContent = object.data.login;
   infoLocation.textContent = `Location: ${object.data.location}`;
-  cardAddress.textContent = object.data.html_url;
-  infoFollowers.textContent = object.data.followers;
-  infoFollowing.textContent = object.data.following;
-  infoBio.textContent = object.data.bio;
+  infoProfile.textContent = `Profile:`;
+  cardAddress.textContent = ` ${object.data.html_url}`;
+  cardAddress.href = object.data.html_url;
+  infoFollowers.textContent = `Followers: ${object.data.followers}`;
+  infoFollowing.textContent = `Following: ${object.data.following}`;
+  infoBio.textContent = `Bio: ${object.data.bio}`;
+
+  infoProfile.append(cardAddress);
 
   return card;
 }
