@@ -8,7 +8,7 @@
 // })
 // .catch(error => {
 //   console.log('data not found', error)
-// })
+// });
 
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
@@ -22,6 +22,20 @@
            create a new component and add it to the DOM as a child of .cards
 */
 
+const entryPoint = document.querySelector(".cards");
+
+axios.get("https://api.github.com/users/taylorroebuck")
+.then((response) => {
+  friendCard(response);
+  console.log(response);
+
+  const newCard = friendCard(response);
+  entryPoint.append(newCard);
+
+  // response.data.message.forEach(item => {
+  //   const newUser = friendCard(item);
+  //   entryPoint.append(newUser);
+})
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -83,14 +97,27 @@ function friendCard(object) {
 
   //add classes to elements
   card.classList.add("card");
-  cardImg.classList.add("card img");
+  cardImg.classList.add("img");
   cardInfo.classList.add("card-info");
   infoName.classList.add("name");
   infoUsername.classList.add("username");
+  infoLocation.classList.add("p");
+  infoProfile.classList.add("p");
+  infoFollowers.classList.add("p");
+  infoFollowing.classList.add("p");
+  infoBio.classList.add("p");
 
+  //set text content
+  cardImg.src = object.data.avatar_url;
+  infoName.textContent = object.data.name;
+  infoUsername.textContent = object.data.login;
+  infoLocation.textContent = `Location: ${object.data.location}`;
+  cardAddress.textContent = object.data.html_url;
+  infoFollowers.textContent = object.data.followers;
+  infoFollowing.textContent = object.data.following;
+  infoBio.textContent = object.data.bio;
 
-
-
+  return card;
 }
 
 /* List of LS Instructors Github username's: 
