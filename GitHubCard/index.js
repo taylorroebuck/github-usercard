@@ -30,7 +30,7 @@ axios.get("https://api.github.com/users/taylorroebuck")
   console.log(response);
 
   const newCard = friendCard(response);
-  entryPoint.append(newCard);
+  entryPoint.prepend(newCard);
 
   // response.data.message.forEach(item => {
   //   const newUser = friendCard(item);
@@ -69,8 +69,8 @@ followersArray.forEach((object) => {
 
   .catch(error => {
     console.log("the data was not returned", error)
-  });
-});
+  })
+})
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
