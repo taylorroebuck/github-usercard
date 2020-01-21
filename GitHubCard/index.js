@@ -2,6 +2,14 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+// axios.get('https://api.github.com/users/taylorroebuck')
+// .then(response => {
+//   console.log(response)
+// })
+// .catch(error => {
+//   console.log('data not found', error)
+// });
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -14,6 +22,25 @@
            create a new component and add it to the DOM as a child of .cards
 */
 
+const entryPoint = document.querySelector(".cards");
+
+axios.get("https://api.github.com/users/taylorroebuck")
+.then((response) => {
+  friendCard(response);
+  console.log(response);
+
+  const newCard = friendCard(response);
+  entryPoint.prepend(newCard);
+
+  // response.data.message.forEach(item => {
+  //   const newUser = friendCard(item);
+  //   entryPoint.append(newUser);
+})
+
+.catch(error => {
+  console.log("the data was not returned", error)
+});
+
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
           , manually find some other users' github handles, or use the list found 
@@ -24,7 +51,26 @@
           user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ["brudnak", "svyatokshin", "dmhabh1992", "kphillips001", "VodeniZeko", "ranccm", "alexvision26", 
+"Gremlin4544", "msinnema33", "JacobSutherland", "rofstudios", "AmMiRo"];
+
+followersArray.forEach((object) => {
+  const user = "https://api.github.com/users/" + object;
+
+  axios.get(user)
+  .then((response) => {
+    friendCard(response);
+    console.log(response);
+
+    const newCard = friendCard(response);
+    entryPoint.append(newCard);
+    // friendCard.append(user);
+  })
+
+  .catch(error => {
+    console.log("the data was not returned", error)
+  })
+})
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -45,6 +91,60 @@ const followersArray = [];
 </div>
 
 */
+
+// create function
+function friendCard(object) {
+  const card = document.createElement("div"),
+        cardImg = document.createElement("img"),
+        cardInfo = document.createElement("div"),
+          infoName = document.createElement("h3"),
+          infoUsername = document.createElement("p"),
+          infoLocation = document.createElement("p"),
+          infoProfile = document.createElement("p"),
+            cardAddress = document.createElement("a"),
+          infoFollowers = document.createElement("p"),
+          infoFollowing = document.createElement("p"),
+          infoBio = document.createElement("p");
+
+  // setup the structure of elements
+  card.append(cardImg);
+  card.append(cardInfo);
+    cardInfo.append(infoName);
+    cardInfo.append(infoUsername);
+    cardInfo.append(infoLocation);
+    cardInfo.append(infoProfile);
+    cardInfo.append(infoFollowers);
+    cardInfo.append(infoFollowing);
+    cardInfo.append(infoBio);
+
+  //add classes to elements
+  card.classList.add("card");
+  cardImg.classList.add("img");
+  cardInfo.classList.add("card-info");
+  infoName.classList.add("name");
+  infoUsername.classList.add("username");
+  infoLocation.classList.add("p");
+  infoProfile.classList.add("p");
+  infoFollowers.classList.add("p");
+  infoFollowing.classList.add("p");
+  infoBio.classList.add("p");
+
+  //set content
+  cardImg.src = object.data.avatar_url;
+  infoName.textContent = object.data.name;
+  infoUsername.textContent = object.data.login;
+  infoLocation.textContent = `Location: ${object.data.location}`;
+  infoProfile.textContent = `Profile:`;
+  cardAddress.textContent = ` ${object.data.html_url}`;
+  cardAddress.href = object.data.html_url;
+  infoFollowers.textContent = `Followers: ${object.data.followers}`;
+  infoFollowing.textContent = `Following: ${object.data.following}`;
+  infoBio.textContent = `Bio: ${object.data.bio}`;
+
+  infoProfile.append(cardAddress);
+
+  return card;
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
